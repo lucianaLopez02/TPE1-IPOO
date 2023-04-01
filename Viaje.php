@@ -6,14 +6,14 @@ class Viaje {
     private $codigoViaje;
     private $destinoViaje;
     private $cantidadMaximaPasajeros;
-    private $arregloPasajeros = []; //arreglo indexado de Pasajeros
+    private $arregloPasajeros ; //arreglo indexado de Pasajeros
 
     //Metodos de acceso
-    public function __construct($codViaje,$destViaje,$cantMax,$arrayPasajeros){
+    public function __construct($codViaje,$destViaje,$cantMax){
         $this->codigoViaje = $codViaje;
         $this->destinoViaje = $destViaje;
         $this->cantidadMaximaPasajeros = $cantMax;
-        $this->arregloPasajeros = $arrayPasajeros;
+        $this->arregloPasajeros = [];
     }
 
     //Getters
@@ -53,58 +53,11 @@ class Viaje {
 
     //FUNCIONES IMPLEMENTADAS
 
-    /**
-     * Permite modificar los datos de un viaje
-     */
-    function modificarViaje(){
-        
-        echo "¿Qué quiere cambiar del viaje?: \n";
-        echo "1. codigo de viaje\n"; 
-        echo "2. destino de viaje\n";
-        echo "3. cantidad máxima de pasajeros\n";
-
-        $opc =trim(fgets(STDIN));
-        
-        if ($opc == 1){ //switch
-            echo "Ingrese nuevo código de viaje: \n";
-            $nuevoCodigo = trim(fgets(STDIN));
-            $this->setCodigoViaje($nuevoCodigo);  //se le asigna el nuevo cambio de codigo
-        
-        }elseif($opc == 2){
-                echo "Ingrese el nuevo destino del viaje:\n";
-                    $nuevoDestino = trim(fgets(STDIN));
-                    $this->setDestino($nuevoDestino);
-                
-        }elseif($opc ==3){
-                echo "Ingrese la nueva capacidad máxima de pasajeros: \n";
-                $nuevaCantMaxima = trim(fgets(STDIN));
-                $this->setCantidadMaxima($nuevaCantMaxima);
-        }else{
-            echo "No existe esa opcion";
-        }
-    }
-    /**
-     * Crear nuevo pasajero
-     */
-    function crearPasajero($nombre,$apellido,$dni){ 
-        $pasajeroNuevo = ["nombre" => $nombre, "apellido" => $apellido, "dni" => $dni];//claves del arreglo Pasajeros
-        return $pasajeroNuevo; //arreglo
-    }
-    /**
-     * Agregar un pasajero a la coleccion
-     * @param array $pasajeroNuevo
-     */
-    function agregarPasajeroColeccion($pasajeroNuevo){
-
-        $coleccionPasajeros = $this->getArregloPasajeros(); // coleccion de pasajeros
-        array_push($coleccionPasajeros,$pasajeroNuevo); //no me deja usar funcion array push
-        //$coleccionPasajeros[($coleccionPasajeros)] = $pasajeroNuevo;
-        $this->setArregloPasajeros($coleccionPasajeros); //Actualizo los datos
-
-    }
+    
+    
     
     /**
-     * Busca el dni del arreglo Pasajeros con la clave dni y devulve la id
+     * Busca el dni del arreglo Pasajeros con la clave dni y devulve la id, esta bien
      */
     function buscarPasajero($dni){
         $i = 0;
@@ -125,41 +78,8 @@ class Viaje {
         return $i;
     }
 
-    /**
-     * Funcion para modificar el nombre del pasajero
-     */
-    function modificarNombrePasajero($id,$nombreNuevo){
 
-        $coleccionPasajeros = $this->getArregloPasajeros(); // coleccion de pasajeros
     
-        $this->$coleccionPasajeros[$id]["nombre"] = $nombreNuevo;
-        
-    }
-
-    /**
-     * Funcion para modificar el apellido del pasajero
-     */
-    function modificarApellidoPasajero($id,$apelllidoNuevo){
-
-        $coleccionPasajeros = $this->getArregloPasajeros(); // coleccion de pasajeros
-    
-        $this->$coleccionPasajeros[$id]["apellido"] = $apelllidoNuevo;
-        
-    }
-
-
-    //Eliminar pasajero del arreglo con el dni
-
-    /**
-     * Elimina un pasajero del arreglo Pasajeros con el id obtenido 
-     */
-    function removerPasajero($id){
-        $coleccionPasajeros = $this->getArregloPasajeros(); //llama a la coleccion pasajeros
-
-            unset($coleccionPasajeros[$id]);  
-            $this->setArregloPasajeros($coleccionPasajeros); //Actualizo los datos
-        
-    }
 
     //Mostrar listado de pasajeros
 
@@ -173,7 +93,7 @@ class Viaje {
 
             $unaFuncion = $this->getArregloPasajeros()[$i];
     
-            $textoPasajeros = ($i + 1). $textoPasajeros."Arreglo Pasajero: \n". $unaFuncion["nombre"]."\n". $unaFuncion["apellido"]."\n".$unaFuncion["dni"]."/n";
+            $textoPasajeros =  $textoPasajeros.($i+1)." Pasajero: \n". $unaFuncion["nombre"]."\n". $unaFuncion["apellido"]."\n".$unaFuncion["dni"]."\n";
             
         }
 
@@ -183,9 +103,9 @@ class Viaje {
     //Metodo para visualizar la informacion de la clase
     public function __toString(){
         
-        $codigoViaje = "código: ".$this->getCodigoViaje();
-        $destino = "destino: ".$this->getDestinoViaje();
-        $cantidadMaximaPasajeros = "cantidad maxima pasajeros: ".$this->getCantidadMaxima();
+        $codigoViaje = "\nCódigo del viaje: ".$this->getCodigoViaje();
+        $destino = "Destino del viaje: ".$this->getDestinoViaje();
+        $cantidadMaximaPasajeros = "Cantidad maxima pasajeros: ".$this->getCantidadMaxima();
 
         $listadoPasajeros = $this->mostrarPasajeros(); //invoco funcion 
 
