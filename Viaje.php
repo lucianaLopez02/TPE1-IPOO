@@ -77,25 +77,16 @@ class Viaje {
     }
 
     //FUNCIONES PARA PASAJERO
-    /**
-     * Crear un nuevo pasajero
-     */
-    function crearPasajero($nombre,$apellido,$dni){ 
-        
-        $pasajeroNuevo = ["nombre" => $nombre, "apellido" => $apellido, "dni" => $dni];//claves del arreglo Pasajeros
-        return $pasajeroNuevo; //arreglo
-    }
 
     /**
      * Agregar un pasajero a la coleccion Pasajeros
      * @param array $pasajeroNuevo
      */
-    function agregarPasajeroColeccion($objViaje, $pasajeroNuevo){ 
-        $coleccionPasajeros = $objViaje->getArregloPasajeros(); // coleccion de pasajeros
-
-        if ($objViaje->getCantidadMaxima()>= count($coleccionPasajeros)) {
-            array_push($coleccionPasajeros,$pasajeroNuevo); 
-            $objViaje->setArregloPasajeros($coleccionPasajeros); //Actualizo los datos
+    function agregarPasajeroColeccion($nombre,$apellido,$dni){ 
+        $coleccionPasajeros = $this->getArregloPasajeros(); // coleccion de pasajeros
+        if ($this->getCantidadMaxima()>= count($coleccionPasajeros)) {
+            $coleccionPasajeros[count($coleccionPasajeros)] = ["nombre" => $nombre, "apellido" => $apellido, "dni" => $dni];//claves del arreglo Pasajeros
+            $this->setArregloPasajeros($coleccionPasajeros); //Actualizo los datos
         }
 
     }
@@ -103,31 +94,15 @@ class Viaje {
     /**
      * Funcion para modificar el nombre del pasajero y apellido, dni
      */
-    function modificarDatosPasajero($id,$objViaje,$opcPasajero){
-
-        $coleccionPasajeros = $objViaje->getArregloPasajeros(); // coleccion de pasajeros
-        if ($opcPasajero == 1){ //cambiar nombre    
-            echo "Ingrese el nuevo nombre: ";
-            $nomNuevo =  trim(fgets(STDIN));
-
-            $coleccionPasajeros[$id]["nombre"] = $nomNuevo;
-            $objViaje->setArregloPasajeros($coleccionPasajeros); 
-
-        }elseif($opcPasajero == 2){ //cambiar apellido  
-            
-            echo "Ingrese nuevo apellido: ";
-            $apeNuevo =  trim(fgets(STDIN));
-
-            $coleccionPasajeros[$id]["apellido"] = $apeNuevo;
-            $objViaje->setArregloPasajeros($coleccionPasajeros);
-            
-        }elseif($opcPasajero == 3){    
-            
-            echo "Ingrese nuevo dni: ";
-            $dniNuevo =  trim(fgets(STDIN)); 
-
-            $coleccionPasajeros[$id]["nombre"] = $dniNuevo;
-            $objViaje->setArregloPasajeros($coleccionPasajeros);  
+    function modificarDatosPasajero($indice, $pnombre, $papellido,$pdni){
+       
+        $coleccionPasajeros = $this->getArregloPasajeros(); // coleccion de pasajeros
+        
+        if($indice>=0 ){
+            $coleccionPasajeros[$indice]["nombre"] = $pnombre;
+            $coleccionPasajeros[$indice]["apellido"] = $papellido;
+            $coleccionPasajeros[$indice]["dni"] = $pdni;
+            $this->setArregloPasajeros($coleccionPasajeros);
         }
     }
 
