@@ -1,6 +1,9 @@
 <?php 
 
 include_once "Viaje.php";
+include_once "Pasajero.php";
+include_once "ResponsableV.php";
+
 
         //Le pido al usuario que ingrese los datos
         echo "-----------[Bienvenido a Viaje Feliz]-----------\n";
@@ -11,7 +14,19 @@ include_once "Viaje.php";
         $destinoViaje  = trim(fgets(STDIN));
         echo "Ingrese cantidad maxima de pasajeros: "; //cargar nuevos pasajeros parz llenar la lista?
         $cantMaxViaje = trim(fgets(STDIN));
-        $objViaje = new Viaje($codViaje, $destinoViaje, $cantMaxViaje, []); //se crea el objeto Viaje
+
+        echo "Ingrese datos del Responsable del Viaje:\n";
+        echo "Numero empleado:\n";
+        $numeroEmpleado = trim(fgets(STDIN));
+        echo "Numero de licencia:\n";
+        $numeroLicencia = trim(fgets(STDIN));
+        echo "Nombre:\n";
+        $nomResponsable = trim(fgets(STDIN));
+        echo "Apellido:\n";
+        $apeResponsable = trim(fgets(STDIN));
+
+        $objResponsable = new ResponsableV($numeroEmpleado, $numeroLicencia, $nomResponsable, $apeResponsable);
+        $objViaje = new Viaje($codViaje, $destinoViaje, $cantMaxViaje, [], $objResponsable); //se crea el objeto Viaje
         
         do{
         echo "\n-----------[OPCIONES]------------\n";
@@ -73,14 +88,16 @@ include_once "Viaje.php";
                     }else{
                         echo "Ingrese nombre pasajero: \n";
                         $nombre = trim(fgets(STDIN));
-        
                         echo "Ingrese su apellido: \n";
                         $apellido = trim(fgets(STDIN));
-        
                         echo "Ingrese su DNI: \n";
                         $dni = trim(fgets(STDIN));
+                        echo "Ingrese telefono: \n";
+                        $telefono = trim(fgets(STDIN));
 
-                        $objViaje->agregarPasajeroColeccion($nombre, $apellido, $dni);  //agregar un pasajero a la lista
+                        $objPasajero = new Pasajero($nombre, $apellido, $dni, $telefono);
+
+                        $objViaje->agregarPasajeroColeccion($objPasajero); //agregar un pasajero a la lista
                         
                     }
                         
@@ -93,6 +110,7 @@ include_once "Viaje.php";
                     echo "Ingrese el dni del pasajero que quiere modificar: ";
                     $dniPasajero = trim(fgets(STDIN));
                     $indice = $objViaje->buscarPasajero($dniPasajero);
+
                     if ($indice <> -1){
                         echo "Ingrese: \n";
                         echo "1.Nombre\n";
@@ -104,8 +122,12 @@ include_once "Viaje.php";
                         echo "3.dni\n";
                         echo "Ingrese nuevo dni: ";
                         $dniNuevo =  trim(fgets(STDIN));    
+                        echo "Ingrese nuevo telefono: ";
+                        $telNuevo =  trim(fgets(STDIN));   
+
                         
-                        $objViaje->modificarDatosPasajero($indice,$nomNuevo,$apeNuevo,$dniNuevo);
+                        $objViaje->modificarDatosPasajero($objPasajero, $nomNuevo,$apeNuevo,$telNuevo, $dniNuevo, $dniPasajero);
+
                     }else{
                         echo "No se encontro el pasajero";
                     }
@@ -114,7 +136,7 @@ include_once "Viaje.php";
                     break;
                 case '5':
                     echo "--------------[Listado de pasajeros del viaje]--------------";
-                    echo $objViaje; //Muestra el listado de los pasajeros del viaje
+                    echo $objViaje->mostrarPasajeros(); //Muestra el listado de los pasajeros del viaje, otra opcion $objViaje->mostrar
                     $seguir = true;
                     break;     
                 case '6':
