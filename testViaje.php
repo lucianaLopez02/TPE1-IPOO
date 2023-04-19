@@ -26,7 +26,10 @@ include_once "ResponsableV.php";
         $apeResponsable = trim(fgets(STDIN));
 
         $objResponsable = new ResponsableV($numeroEmpleado, $numeroLicencia, $nomResponsable, $apeResponsable);
-        $objViaje = new Viaje($codViaje, $destinoViaje, $cantMaxViaje, [], $objResponsable); //se crea el objeto Viaje
+      //  echo  "el responsable ".$objResponsable;
+        $objViaje = new Viaje($codViaje, $destinoViaje, $cantMaxViaje, $objResponsable); //se crea el objeto Viaje
+
+        echo $objViaje;
         
         do{
         echo "\n-----------[OPCIONES]------------\n";
@@ -97,8 +100,15 @@ include_once "ResponsableV.php";
 
                         $objPasajero = new Pasajero($nombre, $apellido, $dni, $telefono);
 
-                        $objViaje->agregarPasajeroColeccion($objPasajero); //agregar un pasajero a la lista
-                        
+                        $existe = $objViaje->verificarPasajero($objPasajero);
+
+                        if ($existe == false) {
+                            //se agrega
+                            $objViaje->agregarPasajeroColeccion($objPasajero); //agregar un pasajero a la lista
+                        }else{
+                            //si es igual no se agrega
+                            echo "Ya existe un pasajero con los mismo datos, no se agrega";
+                        }
                     }
                         
                     $seguir = true;
@@ -106,26 +116,26 @@ include_once "ResponsableV.php";
                 case '4':
                     //Listado de pasajeros para poder modificar
                     echo "-----------------[Listado de pasajeros para modificar]-----------------";
-                    echo $objViaje;
-                    echo "Ingrese el dni del pasajero que quiere modificar: ";
+                    echo $objViaje->mostrarPasajeros();
+                    echo "\nIngrese el dni del pasajero que quiere modificar: ";
                     $dniPasajero = trim(fgets(STDIN));
+
                     $indice = $objViaje->buscarPasajero($dniPasajero);
 
                     if ($indice <> -1){
-                        echo "Ingrese: \n";
-                        echo "1.Nombre\n";
+         
                         echo "Ingrese el nuevo nombre: "; //No tenes que pedir datos en la clase
                         $nomNuevo =  trim(fgets(STDIN));
-                        echo "2.Apellido\n";
+                
                         echo "Ingrese nuevo apellido: ";
                         $apeNuevo =  trim(fgets(STDIN));
-                        echo "3.dni\n";
+            
                         echo "Ingrese nuevo dni: ";
                         $dniNuevo =  trim(fgets(STDIN));    
+
                         echo "Ingrese nuevo telefono: ";
                         $telNuevo =  trim(fgets(STDIN));   
 
-                        
                         $objViaje->modificarDatosPasajero($objPasajero, $nomNuevo,$apeNuevo,$telNuevo, $dniNuevo, $dniPasajero);
 
                     }else{

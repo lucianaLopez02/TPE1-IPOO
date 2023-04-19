@@ -48,10 +48,10 @@ class ResponsableV{
 
     public function __toString(){
 
-        $numE = "El número de empleado es: ".$this->getNumeroEmpleado();
-        $numL = "El número de licencia es: ".$this->getNumeroLicencia();
-        $nom = "El nombre del responsable: ".$this->getNombre();
-        $ape = "El apellido del responsable es: ".$this->getApellido();
+        $numE = "El número de empleado es: ".$this->getNumeroEmpleado()."\n";
+        $numL = "El número de licencia es: ".$this->getNumeroLicencia()."\n";
+        $nom = "El nombre del responsable: ".$this->getNombre()."\n";
+        $ape = "El apellido del responsable es: ".$this->getApellido()."\n";
 
         $cad = $numE.$numL.$nom.$ape;
         return $cad;

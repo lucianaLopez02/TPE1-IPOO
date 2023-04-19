@@ -38,6 +38,7 @@ class Viaje {
     //objResponsable 
     public function getObjResponsable(){
         return $this->objResponsable;
+        
     }
 
 
@@ -75,7 +76,8 @@ class Viaje {
         $buscado =  false;
 
         while ($i < $cant && $buscado == false) {
-            if ( $coleccionPasajeros[$i]["dni"] == $dni) {
+            $objPasajero =$coleccionPasajeros[$i];
+            if ($objPasajero->getNroDocumento() == $dni) {
                 $buscado = true;
             }else{
                 $i++;
@@ -88,6 +90,23 @@ class Viaje {
     }
 
     //FUNCIONES PARA PASAJERO
+    /**
+     * Verificar que el pasajero no se encuentre en la coleccion de Pasajeros o sea igual a otro pasajero
+     * @return boolean
+     */
+    public function verificarPasajero($objPasajero){
+        $verificacion = false;
+        $colPasajeros = $this->getArregloPasajeros();
+        //recorrer la coleccion de pasajeros
+        foreach ($colPasajeros as $pasajero) {
+            if ($objPasajero->getNroDocumento() == $pasajero->getNroDocumento()){
+                $verificacion = true;
+            }
+        }
+        
+        return $verificacion; 
+    }
+
 
     /**
      * Agregar un pasajero a la coleccion Pasajeros
@@ -117,8 +136,8 @@ class Viaje {
             $objPasajero->getApellido();
             $objPasajero->setApellido($papellido);
 
-            $objPasajero->getNumeroDocumento();
-            $objPasajero->setApellido($pdni);
+            $objPasajero->getNroDocumento();
+            $objPasajero->setNroDocumento($pdni);
 
             $objPasajero->getTelefono();
             $objPasajero->setTelefono($ptelefono);
@@ -135,9 +154,9 @@ class Viaje {
     function mostrarPasajeros(){ 
         //String $textoPasajeros
         $textoPasajeros = "";
-        foreach ($this->getArregloPasajeros() as $Pasajero) {
-             $unPasajero = $this->getArregloPasajeros()[$Pasajero];
-             $textoPasajeros =  $textoPasajeros.($i+1)." Pasajero: \n". $unPasajero["nombre"]."\n". $unPasajero["apellido"]."\n".$unPasajero["dni"]."\n".$unPasajero["telefono"]."\n";
+        foreach ($this->getArregloPasajeros() as $unPasajero) {
+           // $unPasajero = $this->getArregloPasajeros()[$Pasajero];
+            $textoPasajeros =  $textoPasajeros."\n Pasajero: \n". $unPasajero->getNombre()."\n". $unPasajero->getApellido()."\n".$unPasajero->getNroDocumento()."\n".$unPasajero->getTelefono()."\n";
         }
         return $textoPasajeros; 
     }
@@ -151,7 +170,9 @@ class Viaje {
 
         $responsableViaje = "Datos del responsable: \n".$this->getObjResponsable(); //informacion del responsable tenemos que recorrer el responsable?1
 
-        $cad = $codigoViaje."\n".$destino."\n". $cantidadMaximaPasajeros."\n".$listadoPasajeros."\n".$responsableViaje;
+        $cad = $codigoViaje."\n".$destino."\n". $cantidadMaximaPasajeros."\n"
+        .$listadoPasajeros."\n"
+        .$responsableViaje;
         return $cad;   
     }
 
