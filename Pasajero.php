@@ -1,17 +1,23 @@
 <?php 
 
-class Pasajero{
+class Pasajero{ //Pasajero ahora es la clase padre, hijas ViP Y Especiales
     private $nombre;
     private $apellido;
     private $numeroDocumento;
     private $telefono;
 
+    private $numeroAsiento;
+    private $numeroTicketPasaje;
+
     //metodo construct
-    public function __construct($nombreP,$apellidoP, $documentoP,  $telefonoP){
+    public function __construct($nombreP,$apellidoP, $documentoP,  $telefonoP, $numeroAsientoP,  $numeroTicketPasajeP ){
         $this->nombre = $nombreP;
         $this->apellido = $apellidoP;
         $this->numeroDocumento = $documentoP;
         $this->telefono = $telefonoP;
+
+        $this->numeroAsiento = $numeroAsientoP;
+        $this->numeroTicketPasaje = $numeroTicketPasajeP;
     }
 
     //Metodos de acceso
@@ -32,6 +38,14 @@ class Pasajero{
         return $this->telefono;
     }
 
+    public function getNumeroAsiento(){
+        return $this->numeroAsiento;
+    }
+
+    public function getNumeroTicketPasaje(){
+        return $this->numeroTicketPasaje;
+    }
+
     //setters
 
     public function setNombre($nombreP){
@@ -50,6 +64,24 @@ class Pasajero{
         $this->telefono =  $telefonoP;
     }
 
+
+    public function setNumeroAsiento($numeroAsientoP){
+        $this->numeroAsiento = $numeroAsientoP;
+    }
+
+    public function setNumeroTicket($numeroTicketPasajeP){
+        $this->numeroTicketPasaje = $numeroTicketPasajeP;
+    }
+
+    //Funciones del pasajero
+    /**
+     *  retorne el porcentaje que debe aplicarse como incremento según las características del pasajero.
+     */
+    public function darPorcentajeIncremento(){
+        //incremento del 0
+        return (0);
+    }
+
     //metoodo toString
     public function __toString(){
        
@@ -57,7 +89,12 @@ class Pasajero{
         $ape = "Apellido: ".$this->getApellido();
         $numDoc = "Numero documento: ".$this->getNroDocumento();
         $tel = "Telefono: ".$this->getTelefono();
-        $cad = $nom.$ape.$numDoc.$tel;
+
+        $numAsiento = "Numero asiento: ".$this->getNumeroAsiento();
+        $numTicket = "Numero de ticket es: ".$this->getNumeroTicketPasaje();
+
+
+        $cad = $nom.$ape.$numDoc.$tel.$numAsiento.$numTicket;
         return $cad;
     }
 }

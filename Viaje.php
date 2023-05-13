@@ -9,6 +9,9 @@ class Viaje {
     private $arregloPasajeros ; //referencia a una coleccion de objetos de la clase Pasajero
     private $objResponsable; //referencia al responsable de realizar el viaje?
 
+    private $costoViaje;
+    private $sumaCostosAbonadosPasajeros;
+
     //Metodos de acceso
     public function __construct($codViaje,$destViaje,$cantMax, $responsable){
         $this->codigoViaje = $codViaje;
@@ -130,21 +133,46 @@ class Viaje {
         $indice = $this->buscarPasajero($dniBuscado);
 
         if($indice>=0 ){
-            $objPasajero->getNombre();
+            
             $objPasajero->setNombre($pnombre);
 
-            $objPasajero->getApellido();
             $objPasajero->setApellido($papellido);
 
-            $objPasajero->getNroDocumento();
             $objPasajero->setNroDocumento($pdni);
 
-            $objPasajero->getTelefono();
             $objPasajero->setTelefono($ptelefono);
 
             $this->setArregloPasajeros($coleccionPasajeros);
         }
     }
+
+    //Funciones del entregable 3
+    /**
+     * Registra la venta de un viaje al pasajero que es recibido por parametro
+     */
+    public function venderPasaje($objPasajero){
+        
+       $pasajeroAgregado  = $this->agregarPasajeroColeccion($objPasajero);
+
+
+    
+    }
+
+    /**
+     * retorna verdadero si la cantidad de pasajeros del viaje es menor a la cantidad máxima de pasajeros y falso caso contrario
+     * @return boolean
+     */
+    public function hayPasajesDisponible(){
+        $esMenor = false;
+        
+        $coleccionPasajeros = $this->getArregloPasajeros(); // coleccion de pasajeros
+        if (count($coleccionPasajeros) < $this->getCantidadMaxima()){
+            $esMenor = true;
+        }
+        return($esMenor);
+    }
+
+    
 
     //Mostrar listado de pasajeros
     /**
